@@ -144,6 +144,10 @@ public class Element implements Cloneable {
         // Remove while return
     }
 
+    public boolean removeChild(Element e) {
+        return getChildren().remove(e);
+    }
+
     public Element getChild(int index) {
         return getChildren().get(index);
     }
