@@ -1,9 +1,12 @@
 package mytree;
 
-import org.apache.commons.text.StringEscapeUtils;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * An implementation of tree structure.
