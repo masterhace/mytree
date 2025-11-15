@@ -199,6 +199,19 @@ public class Element {
         }
     }
 
+    public int[] searchChild(String name) {
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < childCount(); i++) {
+            if (Objects.equals(getChild(i).name, name)) {
+                list.add(i);
+            }
+        }
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
+        // Unbox Integer
+    }
+
     public ElementList getChildren() {
         return (ElementList) content;
     }
