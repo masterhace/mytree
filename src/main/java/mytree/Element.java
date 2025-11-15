@@ -156,6 +156,15 @@ public class Element implements Cloneable {
         return getChildren().set(index, e);
     }
 
+    public void modChild(int index, String name) {
+        getChild(index).name = name;
+    }
+
+    public void modChild(int index, String name, Object o) {
+        getChild(index).name = name;
+        getChild(index).content = o;
+    }
+
     public int moveChild(int startIndex, int destinationIndex) {
         if (startIndex == destinationIndex) {
             return startIndex;
