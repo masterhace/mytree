@@ -203,20 +203,20 @@ public class Element implements Cloneable {
         // Unbox Integer
     }
 
-    public ElementList getChildren() {
-        return (ElementList) content;
-    }
-
-    public void clearChildren() {
-        getChildren().clear();
+    public boolean containsChild(Element e) {
+        return getChildren().contains(e);
     }
 
     public int childCount() {
         return getChildren().size();
     }
 
-    public boolean containsChild(Element e) {
-        return getChildren().contains(e);
+    public ElementList getChildren() {
+        return (ElementList) content;
+    }
+
+    public void clearChildren() {
+        getChildren().clear();
     }
 
     /*
