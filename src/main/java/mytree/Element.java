@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.text.StringEscapeUtils;
 
 /**
@@ -20,7 +18,7 @@ import org.apache.commons.text.StringEscapeUtils;
  * @see     ElementList
  */
 
-public class Element {
+public class Element implements Cloneable {
 
     /**
      * The name of the Element
@@ -36,22 +34,6 @@ public class Element {
      */
 
     public Object content;
-
-    /**
-     * The constant IMMUTABLE_OBJECTS is a list of immutable objects' class that is prepared for deepCopy()
-     */
-
-    public static final List<Class<?>> IMMUTABLE_OBJECTS = List.of(
-            String.class,
-            Integer.class,
-            Long.class,
-            Short.class,
-            Byte.class,
-            Character.class,
-            Boolean.class,
-            Double.class,
-            Float.class
-    );
 
     /**
      * Constructs an Element with name
@@ -71,31 +53,24 @@ public class Element {
     }
 
     /**
-     * The method deepCopy() deep copies the Element.
+     * The method clone() deep copies the Element.
      * <p>
-     * null and the immutable objects stored in content would get shallow copied since they're unchangeable.
+     * The objects other than ElementList stored in content would get shallow copied since they could be unchangeable.
      * <p>
      * The ElementList stored in content would get deep copied recursively.
-     * <p>
-     * The other object stored in content would get cloned by calling their clone() method using reflection. Note that if the object doesn't support clone(), it would throw Exceptions.
      */
 
-    public Element deepCopy() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (isContentNull() || IMMUTABLE_OBJECTS.contains(getContentClass())) {
-            return new Element(name, content);
-            // For null and immutable objects
+    @Override
+    public Element clone() {
+        Element c;
+        try {
+            c = (Element) super.clone();
+        } catch (CloneNotSupportedException exception) {
+            throw new RuntimeException(exception);
         }
 
-        Element c = new Element(name);
-
         if (isContentClass(ElementList.class)) {
-            c.content = new ElementList();
-            for (Element e : getChildren()) {
-                c.addChild(e.deepCopy());
-            }
-        } else {
-            c.content = getContentClass().getMethod("clone").invoke(content);
-            // Assume content has clone() method, no robustness at all :(
+            c.content = getChildren().clone();
         }
 
         return c;
