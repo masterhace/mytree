@@ -1,8 +1,8 @@
 package mytree;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class AtomList extends ArrayList<Atom<?>> {
     @Override
@@ -68,17 +68,16 @@ public class AtomList extends ArrayList<Atom<?>> {
     }
 
     public int[] search(String name) {
-        List<Integer> list = new ArrayList<>();
+        IntStream.Builder builder = IntStream.builder();
 
         for (int i = 0; i < size(); i++) {
             if (!(get(i) == null)) {
                 if (Objects.equals(get(i).getName(), name)) {
-                    list.add(i);
+                    builder.accept(i);
                 }
             }
         }
 
-        return list.stream().mapToInt(Integer::intValue).toArray();
-        // Unbox Integer
+        return builder.build().toArray();
     }
 }
